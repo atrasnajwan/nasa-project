@@ -17,9 +17,14 @@ app.use(morgan('combined'))
 // serve static files from builded react app
 app.use(express.static(path.join(__dirname, "..", "public")))
 
-
 app.use(express.json())
 app.use(planetsRouter)
 app.use(launchesRouter)
+
+// fix routes on production mode
+// https://create-react-app.dev/docs/deployment/
+app.get('/*', (req, res) => {
+    return res.sendFile(path.join(__dirname, "..", "public", "index.html"))
+})
 
 module.exports = app
