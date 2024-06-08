@@ -1,10 +1,14 @@
-const { launches } = require("../../models/launches.model")
+const { getAllLaunches, createNewLaunch } = require("../../models/launches.model")
 
-const getAllLaunches = (req, res) => {
-    const arrayLaunches = Array.from(launches.values())
-    return res.status(200).json(arrayLaunches)
+const httpGetAllLaunches = (req, res) => {
+    return res.status(200).json(getAllLaunches)
 }
 
+const httpCreateNewLaunch = (req, res) => {
+    const newLaunch = createNewLaunch(req.body)
+    return res.status(201).json(newLaunch)
+}
 module.exports = {
-    getAllLaunches
+    httpGetAllLaunches,
+    httpCreateNewLaunch
 }
