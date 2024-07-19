@@ -6,7 +6,7 @@ const launch = {
     mission: "Test mission",
     rocket: 'Rocker name',
     launchDate: new Date('28 December 2025'),
-    destination: 'Kepler',
+    target: 'Kepler',
     customer: ['NASA'],
     upcoming: true,
     success: true
@@ -15,7 +15,7 @@ const launch = {
 // init value
 launches.set(launch.flightNumber, launch)
 
-const getAllLaunches = () => Array.from(launches.values)
+const getAllLaunches = () => Array.from(launches.values())
 
 const createNewLaunch = (launch) => {
     lastFlightNumber += 1
