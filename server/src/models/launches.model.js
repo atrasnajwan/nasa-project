@@ -28,7 +28,19 @@ const createNewLaunch = (launch) => {
     return launch
 }
 
+const isLaunchExist = (id) => launches.has(id)
+
+const abortLaunch = (id) => {
+    const aborted = launches.get(id)
+    aborted.upcoming = false
+    aborted.success = false
+    
+    return aborted
+}
+
 module.exports = {
     getAllLaunches,
-    createNewLaunch
+    createNewLaunch,
+    isLaunchExist,
+    abortLaunch
 }
