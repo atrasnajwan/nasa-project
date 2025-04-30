@@ -42,7 +42,7 @@ const updatePlanet = async (planet) => await Planet.updateOne({
     upsert: true    // UPSERT
 })
 
-const getAllPlanets = async () => await Planet.find({})
+const getAllPlanets = async () => await Planet.find({}, "keplerName -_id") // show field keplerName and exclude _id
 
 module.exports = {
     loadPlanets,
