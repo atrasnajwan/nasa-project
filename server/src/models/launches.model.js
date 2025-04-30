@@ -1,10 +1,6 @@
 const Launch = require('./launches.mongo')
 const Planet = require('./planets.mongo')
 
-const launches = new Map()
-
-
-
 // UPSERT
 const createLaunchDb = async (launch) => {
     const planet = await Planet.findOne({ keplerName: launch.target })
