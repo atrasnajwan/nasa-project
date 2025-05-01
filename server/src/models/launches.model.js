@@ -12,20 +12,11 @@ const createLaunchDb = async (launch) => {
     })
 }
 
-// init value, DEV
-// const launch = {
-//     flightNumber: 100, flight_number
-//     mission: "Test mission", name
-//     rocket: 'Rocker name', rocket.name
-//     launchDate: new Date('28 December 2025'), date_local
-//     target: 'Kepler', not_applicable
-//     customers: ['NASA'], payloads[].customers[]
-//     upcoming: true, upcoming
-//     success: true success
-// }
-// createLaunchDb(launch)
-
-const getAllLaunches = async () => await Launch.find({}, "-_id -__v") // '-' means exclude
+const getAllLaunches = async (skip, limit) => await Launch
+    .find({}, "-_id -__v") // '-' means exclude
+    .sort({flightNumber: -1}) // '-' descending
+    .skip(skip) // similar to offset
+    .limit(limit)
 
 const getLastFlightNumber = async () => {
     const lastLaunch = await Launch.findOne().sort('-flightNumber') // '-' means descending

@@ -1,7 +1,10 @@
 const { getAllLaunches, scheduleNewLaunch, isLaunchExist, abortLaunch } = require("../../models/launches.model")
+const { getPagination } = require("../../services/apiQuery")
 
 const httpGetAllLaunches = async (req, res) => {
-    return res.status(200).json(await getAllLaunches())
+    const { skip, limit } = getPagination(req.query)
+
+    return res.status(200).json(await getAllLaunches(skip, limit))
 }
 
 const httpCreateNewLaunch = async (req, res) => {
