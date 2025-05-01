@@ -1,4 +1,4 @@
-const { getAllLaunches, createNewLaunch, isLaunchExist, abortLaunch } = require("../../models/launches.model")
+const { getAllLaunches, scheduleNewLaunch, isLaunchExist, abortLaunch } = require("../../models/launches.model")
 
 const httpGetAllLaunches = async (req, res) => {
     return res.status(200).json(await getAllLaunches())
@@ -24,7 +24,7 @@ const httpCreateNewLaunch = async (req, res) => {
         })
     }
     try {
-        const newLaunch = await createNewLaunch(launch)
+        const newLaunch = await scheduleNewLaunch(launch)
         return res.status(201).json(newLaunch)
     } catch (error) {
         return res.status(400).json({ error })

@@ -3,6 +3,7 @@ const http = require('http')
 const app = require('./app')
 const { connectDb } = require('./services/mongo')
 const { loadPlanets } = require('./models/planets.model')
+const { loadLaunches } = require('./models/launches.model')
 
 const PORT = process.env.PORT || 8000
 const server = http.createServer(app)
@@ -15,6 +16,7 @@ const startServer = async () => {
     await connectDb()
     // Load data
     await loadPlanets()
+    await loadLaunches()
 
     server.listen(PORT, () => {
         console.log(`Listening to ${PORT}...`)
