@@ -8,7 +8,11 @@ const api = require('./routes/api')
 const app = express()
 
 app.use(cors({
-    origin: `http://localhost:${process.env.PORT || 3000}`
+    origin: [
+        `http://localhost:${process.env.PORT || 3000}`,
+        `http://127.0.0.1:${process.env.PORT || 3000}`,
+        `http://0.0.0.0:${process.env.PORT || 3000}`
+    ]
 }))
 
 // logging
