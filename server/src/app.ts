@@ -1,17 +1,16 @@
-const express = require('express')
-const cors = require('cors')
-const path = require('path')
-const morgan = require('morgan')
-const api = require('./routes/api')
-
-
+import express, { Request, Response } from 'express'
+import cors from 'cors'
+import path from 'path'
+import morgan from 'morgan'
+import api from './routes/api'
+import config from './config/config'
 const app = express()
 
 app.use(cors({
     origin: [
-        `http://localhost:${process.env.PORT || 3000}`,
-        `http://127.0.0.1:${process.env.PORT || 3000}`,
-        `http://0.0.0.0:${process.env.PORT || 3000}`
+        `http://localhost:${config.port}`,
+        `http://127.0.0.1:${config.port}`,
+        `http://0.0.0.0:${config.port}`
     ]
 }))
 
@@ -27,8 +26,8 @@ app.use('/', api)
 
 // fix routes on production mode
 // https://create-react-app.dev/docs/deployment/
-app.get('/*', (req, res) => {
+app.get('/*', (_: Request, res: Response) => {
     return res.sendFile(path.join(__dirname, "..", "public", "index.html"))
 })
 
-module.exports = app
+export default app

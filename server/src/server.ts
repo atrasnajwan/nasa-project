@@ -1,16 +1,15 @@
 require('dotenv').config()
-const http = require('http')
-const app = require('./app')
-const { connectDb } = require('./services/mongo')
-const { loadPlanets } = require('./models/planets.model')
-const { loadLaunches } = require('./models/launches.model')
+import http from 'http'
+import app from './app'
+import config from './config/config'
+import { connectDb } from './services/mongo'
+import { loadPlanets } from './models/planets.model'
+import { loadLaunches } from './models/launches.model'
 
-const PORT = process.env.PORT || 3000
+const PORT = config.port
 const server = http.createServer(app)
 
-
-
-const startServer = async () => {
+async function startServer(): Promise<void> {
     // connect to db
     console.log("Connecting to db...")
     await connectDb()

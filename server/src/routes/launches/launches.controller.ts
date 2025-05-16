@@ -1,14 +1,15 @@
-const { getAllLaunches, scheduleNewLaunch, isLaunchExist, abortLaunch } = require("../../models/launches.model")
-const { getPagination } = require("../../services/apiQuery")
+import { getAllLaunches, scheduleNewLaunch, isLaunchExist, abortLaunch, LaunchData } from "../../models/launches.model"
+import { getPagination } from '../../services/apiQuery'
+import { Request, Response } from 'express'
 
-const httpGetAllLaunches = async (req, res) => {
+async function httpGetAllLaunches(req: Request, res: Response): Promise<any> {
     const { skip, limit } = getPagination(req.query)
 
     return res.status(200).json(await getAllLaunches(skip, limit))
 }
 
-const httpCreateNewLaunch = async (req, res) => {
-    const launch = req.body
+async function httpCreateNewLaunch(req: Request, res: Response): Promise<any> {
+    const launch: LaunchData = req.body
     // validation
     if (
         !launch.mission || !launch.rocket ||
@@ -20,8 +21,8 @@ const httpCreateNewLaunch = async (req, res) => {
     }
 
     launch.launchDate = new Date(launch.launchDate)
-    // is Not a Number
-    if (isNaN(launch.launchDate)) {
+
+    if (!isFinite(+launch.launchDate)) {
         return res.status(400).json({
             error: 'Invalid launchDate'
         })
@@ -34,7 +35,7 @@ const httpCreateNewLaunch = async (req, res) => {
     }
 }
 
-const httpAbortLaunch = async (req, res) => {
+async function httpAbortLaunch(req: Request, res: Response): Promise<any> {
     const launchId = Number(req.params.id)
     const exist = await isLaunchExist(launchId)
 
@@ -54,7 +55,7 @@ const httpAbortLaunch = async (req, res) => {
     })
 }
 
-module.exports = {
+export {
     httpGetAllLaunches,
     httpCreateNewLaunch,
     httpAbortLaunch

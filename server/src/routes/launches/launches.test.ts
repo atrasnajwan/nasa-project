@@ -1,7 +1,8 @@
-const request = require('supertest')
-const app = require('../../app')
-const { connectDb, closeDb } = require('../../services/mongo')
-const { loadPlanets } = require('../../models/planets.model')
+import request from 'supertest'
+import app from '../../app'
+import { connectDb, closeDb } from '../../services/mongo'
+import { loadPlanets } from '../../models/planets.model'
+import { LaunchData } from '../../models/launches.model'
 
 describe("Test /launches API", () => {
     beforeAll(async () => {
@@ -22,11 +23,11 @@ describe("Test /launches API", () => {
     })
 
     describe('POST /launches', () => {
-        const launchData = {
+        const launchData: LaunchData = {
             mission: 'Test mission',
             rocket: 'Test rocket',
             target: 'Kepler-62 f',
-            launchDate: '2024-01-01'
+            launchDate: new Date('2024-01-01')
         }
         const launchDataWithoutDate = {
             mission: 'Test mission',

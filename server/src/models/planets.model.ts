@@ -1,18 +1,25 @@
-const fs = require('fs')
-const path = require('path')
-const { parse } = require('csv-parse')
-const Planet = require('./planets.mongo')
+import fs from 'fs'
+import path from 'path'
+import { parse } from 'csv-parse'
+import Planet from './planets.mongo'
 
-const planetsCsv = path.join(__dirname, '..', '..', 'data', 'kepler_data.csv')
+interface PlanetContent {
+    koi_disposition: string
+    koi_insol: number
+    koi_prad: number
+    kepler_name: string
+}
 
-const isHabitable = (planet) => {
+const planetsCsv: string = path.join(__dirname, '..', '..', 'data', 'kepler_data.csv')
+
+function isHabitable(planet: PlanetContent): boolean {
     return planet['koi_disposition'] === 'CONFIRMED'
         && planet['koi_insol'] > 0.36
         && planet['koi_insol'] < 1.11
         && planet['koi_prad'] < 1.6
 }
 
-const loadPlanets = () => {
+function loadPlanets(): Promise<void> {
     return new Promise((resolve, reject) => {
         fs.createReadStream(planetsCsv)
             .pipe(parse({
@@ -34,17 +41,21 @@ const loadPlanets = () => {
     })
 }
 
-const updatePlanet = async (planet) => await Planet.updateOne({
-    keplerName: planet.kepler_name // WHERE
-}, {
-    keplerName: planet.kepler_name // ACTION
-}, {
-    upsert: true    // UPSERT
-})
+async function updatePlanet(planet: PlanetContent) {
+    return await Planet.updateOne({
+        keplerName: planet.kepler_name // WHERE
+    }, {
+        keplerName: planet.kepler_name // ACTION
+    }, {
+        upsert: true    // UPSERT
+    })
+}
 
-const getAllPlanets = async () => await Planet.find({}, "keplerName -_id") // show field keplerName and exclude _id
+async function getAllPlanets() {
+    return await Planet.find({}, "keplerName -_id") // show field keplerName and exclude _id
+}
 
-module.exports = {
+export {
     loadPlanets,
     getAllPlanets
 }
