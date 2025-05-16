@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "install-server": "pnpm install --prefix server && pnpm run build --prefix server",
+    "install-server": "pnpm install --prefix server && npm run build --prefix server",
     "install-client": "pnpm install --prefix client",
     "install": "pnpm run install-server && pnpm install-client",
     "server": "npm run watch --prefix server",
